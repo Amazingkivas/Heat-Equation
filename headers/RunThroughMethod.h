@@ -11,7 +11,7 @@ using std::vector;
 class Grid {
 private:
 	vector<real> v;
-	size_t n, m;		// Grid Sizes
+	size_t n, m;	// Grid Sizes
 
 public:
 	Grid(size_t space_size = 1, size_t time_size = 1) : n(space_size), m(time_size) { v = vector<real>(n * m, 0.0); }
@@ -27,12 +27,12 @@ public:
 
 class RunThrough {
 private:
-	Grid v;				// Numerical solution
-	real tau;			// Time Step
-	real h;				// Space Step
+	Grid v;			// Numerical solution
+	real tau;		// Time Step
+	real h;			// Space Step
 	real Ai, Bi, Ci;	// Run-Through Coefficients
 	size_t n, m;		// Grid Sizes
-	real T;				// Maximum Time
+	real T;			// Maximum Time
 
 	void initialize_parameters(function<real(real)> init_func, real gamma);
 	void run(function<real(real)> boundary_functions[2], function<real(real, real)> g);
