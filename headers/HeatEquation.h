@@ -16,7 +16,7 @@ private:
 
 	real a, b;			// Space Boundaries
 
-	Grid v; 			  // Solution
+	Grid v; 			// Solution
 
 public:
 	HeatEquation(real coefficient, function<real(real, real)> heat_source, function<real(real)> initial, 
