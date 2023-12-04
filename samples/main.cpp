@@ -13,8 +13,13 @@ int main(int argc, char* argv[]) {
 	function<real(real)> mu2 = [](real t) { return sin(4 * t); };
 	real a = 0.0;
 	real b = 1.0;
-	HeatEquation eq(gamma, g, phi, mu1, mu2, a, b);
+
+	function<real(real)> boundary_conditions_funcs[2] = { mu1, mu2 };
+	real space_boundaries[2] = { a, b };
+
+	HeatEquation eq(gamma, g, phi, space_boundaries, boundary_conditions_funcs);
 	Grid solution;
+
 	size_t sizes[2] = { 100, 100 };
 	solution = eq.solve_equation(5, sizes);
 	Writer write(solution);
