@@ -6,6 +6,8 @@
 
 using real = long double;
 using std::function;
+using BinaryFunction = function<real(real, real)>;
+using UnaryFunction = function<real(real)>;
 using std::vector;
 
 class Grid {
@@ -34,13 +36,13 @@ private:
 	size_t n, m;		// Grid Sizes
 	real T;				// Maximum Time
 
-	void initialize_parameters(function<real(real)> init_func, real gamma);
-	void run(function<real(real)> boundary_functions[2], function<real(real, real)> g);
+	void initialize_parameters(UnaryFunction init_func, real gamma);
+	void run(UnaryFunction boundary_functions[2], BinaryFunction g);
 
 public:
 	RunThrough(size_t sizes[2], real max_time, real coefficient, 
-		function<real(real, real)> source_function, function<real(real)> initial_function,
-		real boundaries[2], function<real(real)> boundary_condtitions[2]) : 
+		BinaryFunction source_function, UnaryFunction initial_function,
+		real boundaries[2], UnaryFunction boundary_condtitions[2]) :
 		n(sizes[0]), m(sizes[1]), T(max_time) {
 		v = Grid(n + 1, m + 1);
 
@@ -58,7 +60,7 @@ public:
 };
 
 
-void RunThrough::initialize_parameters(function<real(real)> init_func, real gamma) {
+void RunThrough::initialize_parameters(UnaryFunction init_func, real gamma) {
 	for (size_t i = 0; i <= n; ++i) {
 		v(i, 0) = init_func(static_cast<real>(i) * h);
 	}
@@ -66,9 +68,9 @@ void RunThrough::initialize_parameters(function<real(real)> init_func, real gamm
 	Ci = 1.0 + (2.0 * tau * gamma * gamma) / (h * h);
 }
 
-void RunThrough::run(function<real(real)> boundary_functions[2], function<real(real, real)> g) {
-	function<real(real)> mu1 = boundary_functions[0];
-	function<real(real)> mu2 = boundary_functions[1];
+void RunThrough::run(UnaryFunction boundary_functions[2], BinaryFunction g) {
+	UnaryFunction mu1 = boundary_functions[0];
+	UnaryFunction mu2 = boundary_functions[1];
 	vector<real> alpha;
 	vector<real> betta;
 	real phi = 0.0;

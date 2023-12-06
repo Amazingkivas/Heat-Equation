@@ -9,25 +9,25 @@
 
 class HeatEquation {
 private:
-	real gamma;						// Thermal Conductivity Coefficient
-	function<real(real, real)> g;	// External Heat Source
-	function<real(real)> phi;		// Initial Temperature Distribution
-	function<real(real)> mu1, mu2;	// Boundary Conditions
+	real gamma;				// Thermal Conductivity Coefficient
+	BinaryFunction g;		// External Heat Source
+	UnaryFunction phi;		// Initial Temperature Distribution
+	UnaryFunction mu1, mu2;	// Boundary Conditions
 
-	real a, b;					// Space Boundaries
+	real a, b;				// Space Boundaries
 
-	Grid v;							// Solution
+	Grid v;					// Solution
 
 public:
-	HeatEquation(real coefficient, function<real(real, real)> heat_source, function<real(real)> initial, 
-		real boundaries[2], function<real(real)> boundary_condtitions[2]) : gamma(coefficient), g(heat_source), phi(initial),
+	HeatEquation(real coefficient, BinaryFunction heat_source, UnaryFunction initial,
+		real boundaries[2], UnaryFunction boundary_condtitions[2]) : gamma(coefficient), g(heat_source), phi(initial),
 		mu1(boundary_condtitions[0]), mu2(boundary_condtitions[1]), a(boundaries[0]), b(boundaries[1]) {}
 
 	
 	Grid solve_equation(real time, size_t sizes[2]) {
 
 		real bound_space[2] = { a, b };
-		function<real(real)> bound_funcs[2] = { mu1, mu2 };
+		UnaryFunction bound_funcs[2] = { mu1, mu2 };
 
 		RunThrough solver(sizes, time, gamma, g, phi, bound_space, bound_funcs);
 		return solver.get_whole_grid();
