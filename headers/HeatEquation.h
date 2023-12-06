@@ -9,14 +9,20 @@
 
 class HeatEquation {
 private:
-	real gamma;				// Thermal Conductivity Coefficient
-	BinaryFunction g;		// External Heat Source
-	UnaryFunction phi;		// Initial Temperature Distribution
-	UnaryFunction mu1, mu2;	// Boundary Conditions
+	real gamma;				              // Thermal Conductivity Coefficient
+	BinaryFunction g;		            // External Heat Source
+	UnaryFunction phi;		          // Initial Temperature Distribution
+	UnaryFunction mu1, mu2;	        // Boundary Conditions
 
-	real a, b;				// Space Boundaries
+	real a, b;				              // Space Boundaries
 
-	Grid v;					// Solution
+	Grid v;					                // Solution
+	real gamma;			                // Thermal Conductivity Coefficient
+	function<real(real, real)> g;	  // External Heat Source
+	function<real(real)> phi;	      // Initial Temperature Distribution
+	function<real(real)> mu1, mu2;	// Boundary Conditions
+
+	real a, b;			                // Space Boundaries
 
 public:
 	HeatEquation(real coefficient, BinaryFunction heat_source, UnaryFunction initial,
