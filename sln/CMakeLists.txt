@@ -6,5 +6,4 @@ include_directories(../headers)
 
 
 # BUILD
-add_subdirectory(HeatEquationLib)
 add_subdirectory(Sample)
