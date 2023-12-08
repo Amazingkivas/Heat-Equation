@@ -13,11 +13,7 @@ private:
 	BinaryFunction g;               // External Heat Source
 	UnaryFunction phi;              // Initial Temperature Distribution
 	UnaryFunction mu1, mu2;         // Boundary Conditions
-
-	real a, b;				        // Space Boundaries
-	
-	 // Boundary Conditions
-
+	real a, b;                      // Space Boundaries
 
 public:
 	HeatEquation(real coefficient, BinaryFunction heat_source, UnaryFunction initial,
