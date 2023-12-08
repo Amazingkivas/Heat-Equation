@@ -13,7 +13,7 @@ using std::vector;
 class Grid {
 private:
 	vector<real> v;
-	size_t n, m;		// Grid Sizes
+	size_t n, m;	// Grid Sizes
 
 public:
 	Grid(size_t space_size = 1, size_t time_size = 1) : n(space_size), m(time_size) { v = vector<real>(n * m, 0.0); }
@@ -29,12 +29,12 @@ public:
 
 class RunThrough {
 private:
-	Grid v;				// Numerical solution
-	real tau;			// Time Step
-	real h;				// Space Step
+	Grid v;			// Numerical solution
+	real tau;		// Time Step
+	real h;			// Space Step
 	real Ai, Bi, Ci;	// Run-Through Coefficients
 	size_t n, m;		// Grid Sizes
-	real T;				// Maximum Time
+	real T;			// Maximum Time
 
 	void initialize_parameters(UnaryFunction init_func, real gamma);
 	void run(UnaryFunction boundary_functions[2], BinaryFunction g);
@@ -75,19 +75,19 @@ void RunThrough::run(UnaryFunction boundary_functions[2], BinaryFunction g) {
 	vector<real> betta;
 	real phi = 0.0;
 
-	for (size_t j = 1; j <= m; ++j) {
+	for (size_t j = 1; j <= m; j++) {
 		betta.push_back(mu1(static_cast<real>(j) * tau));
 		alpha.push_back(0.0);
 
 		v(0, j) = mu1(static_cast<real>(j) * tau);
-		for (size_t i = 1; i <= n; ++i) {
+		for (size_t i = 1; i <= n; i++) {
 			alpha.push_back(Bi / (Ci - Ai * alpha[i - 1]));
-			phi = v(i, j - 1) + tau * g(static_cast<real>(i) * h, static_cast<real>(j) * tau);
+			phi = v(i - 1, j - 1) + tau * g(static_cast<real>(i - 1) * h, static_cast<real>(j) * tau);
 			betta.push_back((phi + Ai * betta[i - 1]) / (Ci - alpha[i - 1] * Ai));
 		}
 		v(n, j) = mu2(static_cast<real>(j) * tau);
 
-		for (size_t i = n - 1; i > 0; --i) {
+		for (size_t i = n - 1; i > 0; i--) {
 			v(i, j) = alpha[i + 1] * v(i + 1, j) + betta[i + 1];
 		}
 		betta.clear();
