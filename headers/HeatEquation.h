@@ -16,12 +16,14 @@ private:
 
 	real a, b;				        // Space Boundaries
 	
+	 // Boundary Conditions
+
+
 public:
 	HeatEquation(real coefficient, BinaryFunction heat_source, UnaryFunction initial,
 		real boundaries[2], UnaryFunction boundary_condtitions[2]) : gamma(coefficient), g(heat_source), phi(initial),
 		mu1(boundary_condtitions[0]), mu2(boundary_condtitions[1]), a(boundaries[0]), b(boundaries[1]) {}
 
-	
 	Grid solve_equation(real time, size_t sizes[2]) {
 
 		real bound_space[2] = { a, b };
