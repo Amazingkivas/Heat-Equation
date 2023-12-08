@@ -15,10 +15,7 @@ private:
 	UnaryFunction mu1, mu2;         // Boundary Conditions
 
 	real a, b;				        // Space Boundaries
-	Grid v; 			            // Solution
-	Grid v;					// Solution
->>>>>>>>> Temporary merge branch 2
-
+	
 public:
 	HeatEquation(real coefficient, BinaryFunction heat_source, UnaryFunction initial,
 		real boundaries[2], UnaryFunction boundary_condtitions[2]) : gamma(coefficient), g(heat_source), phi(initial),

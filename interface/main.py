@@ -66,26 +66,20 @@ class FirstScreen(Screen):
                                       scroll_type=['bars'], bar_width='15dp')
         self.scroll_view.add_widget(self.table_layout)
 
-
-        # Строим трехмерный график
+        # Build 3D plot
         self.fig = plt.gcf()
         self.bx = self.fig.add_subplot(111, projection='3d')
-
         self.plt_box = BoxLayout(orientation='vertical', padding=10, spacing=5, size_hint=(None, None),
                             size=(800, 650))
-
         widg_plt = FigureCanvasKivyAgg(self.fig)
         self.plt_box.add_widget(widg_plt)
 
 
         # Adding a field for a graph
         self.fir, self.ax = plt.subplots()
-
         self.plt_box_1 = BoxLayout(orientation='vertical', padding=10, spacing=5, size_hint=(None, None),
                             size=(800, 650))
-
         self.plt_1 = FigureCanvasKivyAgg(plt.gcf())
-
         self.plt_box_1.add_widget(self.plt_1)
 
         # Buttons for a graphs
@@ -141,14 +135,7 @@ class FirstScreen(Screen):
         self.vertical_box.add_widget(layout4)
         self.vertical_box.add_widget(layout5)
         self.vertical_box.add_widget(grid2)
-        #vertical_box.add_widget(plt_box_1)
         self.vertical_box.add_widget(self.plt_box)
-        #
-        #plt_box.add_widget(FigureCanvasKivyAgg(plt.gcf()))
-        #grid2.add_widget(plt_box)
-
-        #vertical_box.add_widget(switch_button)
-
         layout.add_widget(self.vertical_box)
         grid.add_widget(self.scroll_view)
         layout.add_widget(grid)
@@ -194,10 +181,6 @@ class FirstScreen(Screen):
 
         self.dt = self.param3 / self.param2
         self.t = int(self.param4 / self.dt)
-
-        # Build a table
-        # self.table_layout.clear_widgets()
-        # self.add_table_data(self.x_values, self.y_values[self.t])
 
     def plot_graph_x(self, instance):
         flag = True
@@ -279,8 +262,6 @@ class FirstScreen(Screen):
         self.vertical_box.remove_widget(self.plt_box_1)
         self.bx.clear()
 
-        #x_vals = self.x_values[::-1]
-
         x = np.array(self.x_values)
         y = np.array(self.t_values)
         z = np.array(self.y_values)
@@ -292,27 +273,10 @@ class FirstScreen(Screen):
         self.bx.set_zlabel('V')
         self.bx.set_title('График изменения температуры на стержне')
 
-        # Строим поверхность
+        # Build plot
         self.bx.plot_surface(X, T, z, cmap='viridis')
         if self.plt_box not in self.vertical_box.children:
             self.vertical_box.add_widget(self.plt_box)
-
-
-
-
-    # def add_table_data(self, x_values, y_values):
-    #     # Add data to the table
-    #     for value in ['№ узла (i)', 'xi', 'Vi']:
-    #         cell = Label(text=str(value), size_hint_x=None, width=150, color=[0, 0, 0, 1])
-    #         cell.bind(size=self.draw_border)
-    #         self.table_layout.add_widget(cell)
-    #     num = -1
-    #     for x, y in zip(x_values, y_values):
-    #         num += 1
-    #         for value in [num, round(x, len(str(self.param1))), y]:
-    #             cell = Label(text=str(value), size_hint_x=None, width=150, color=[0, 0, 0, 1])
-    #             cell.bind(size=self.draw_border)
-    #             self.table_layout.add_widget(cell)
 
     def draw_border(self, instance, size):
         instance.canvas.before.clear()
