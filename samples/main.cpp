@@ -22,27 +22,29 @@ int main(int argc, char* argv[]) {
 		numbers.push_back(number);
 	}
 
-	real gamma = 2.0;
-	auto g = [](real x, real t) { return exp(-t) * sin(7 * M_PI * x) + 1; };
-	auto phi = [](real x) { return 1 - x * x; };
-	auto mu1 = [](real t) { return cos(t); };
-	auto mu2 = [](real t) { return sin(4 * t); };
-	real a = 0.0;
-	real b = 1.0;
+	double gamma = 2.0;
+	auto g = [](double x, double t) { return exp(-1.0 * t) * sin(7.0 * M_PI * x) + 1.0; };
+	auto phi = [](double x) { return 1.0 - x * x; };
+	auto mu1 = [](double t) { return cos(t); };
+	auto mu2 = [](double t) { return sin(4.0 * t); };
+	double a = 0.0;
+	double b = 1.0;
 
-	function<real(real)> boundary_conditions_funcs[2] = { mu1, mu2 };
-	real space_boundaries[2] = { a, b };
+	function<double(double)> boundary_conditions_funcs[2] = { mu1, mu2 };
+	double space_boundaries[2] = { a, b };
 
 	HeatEquation eq(gamma, g, phi, space_boundaries, boundary_conditions_funcs);
 	Grid solution;
 
-	size_t n = static_cast<size_t>(numbers[0]);
-	size_t m = static_cast<size_t>(numbers[1]);
-	real T = static_cast<real>(numbers[2]);
+	int n = static_cast<int>(numbers[0]);
+	int m = static_cast<int>(numbers[1]);
+	double T = static_cast<double>(numbers[2]);
 
-	size_t sizes[2] = { n, m };
+	int sizes[2] = { n, m };
 	solution = eq.solve_equation(T, sizes);
-	Writer write(solution);
+	double h = 1.0 / n;
+	double tau = T / m;
+	Writer write(solution, h, tau);
 	
 	if(!write.write_grid("OutputData.csv")) {
 		std::cout << "ERROR: Failed to open OutputData.csv";
