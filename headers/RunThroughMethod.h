@@ -28,12 +28,12 @@ public:
 
 class RunThrough {
 private:
-	Grid v;			// Numerical solution
-	double tau;		// Time Step
-	double h;			// Space Step
-	double Ai, Bi, Ci;	// Run-Through Coefficients
-	int n, m;		// Grid Sizes
-	double T;			// Maximum Time
+	Grid v;              // Numerical solution
+	double tau;          // Time Step
+	double h;            // Space Step
+	double Ai, Bi, Ci;   // Run-Through Coefficients
+	int n, m;            // Grid Sizes
+	double T;            // Maximum Time
 
 	void initialize_parameters(UnaryFunction init_func, double gamma);
 	void run(UnaryFunction boundary_functions[2], BinaryFunction g);
@@ -75,7 +75,7 @@ void RunThrough::run(UnaryFunction boundary_functions[2], BinaryFunction g) {
 	double phi = 0.0;
 
 	for (int j = 1; j <= m; j++) {
-		// Фиктивные значения для корректировки индексов в соответствии с формулами
+		// Dummy values for adjusting indexes according to formulas
 		// ------------------
 		alpha.push_back(0.0);
 		betta.push_back(0.0);
@@ -83,7 +83,7 @@ void RunThrough::run(UnaryFunction boundary_functions[2], BinaryFunction g) {
 
 		double t = static_cast<double>(j) * tau;
 
-		// Прямой ход
+		// Straight running
 		betta.push_back(mu1(t));
 		alpha.push_back(0.0);
 		for (int i = 1; i < n; i++) {
@@ -93,7 +93,7 @@ void RunThrough::run(UnaryFunction boundary_functions[2], BinaryFunction g) {
 			betta.push_back((phi + Ai * betta[i]) / (Ci - alpha[i] * Ai));
 		}
 
-		// Обратный ход
+		// Reverse running
 		v(n, j) = mu2(t);
 		for (int i = n - 1; i > 0; i--) {
 			v(i, j) = alpha[i + 1] * v(i + 1, j) + betta[i + 1];

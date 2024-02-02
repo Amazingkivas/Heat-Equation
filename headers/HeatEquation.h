@@ -10,11 +10,11 @@
 
 class HeatEquation {
 private:
-	double gamma;                     // Thermal Conductivity Coefficient
-	BinaryFunction g;               // External Heat Source
-	UnaryFunction phi;              // Initial Temperature Distribution
-	UnaryFunction mu1, mu2;         // Boundary Conditions
-	double a, b;                      // Space Boundaries
+	double gamma;             // Thermal Conductivity Coefficient
+	BinaryFunction g;         // External Heat Source
+	UnaryFunction phi;        // Initial Temperature Distribution
+	UnaryFunction mu1, mu2;   // Boundary Conditions
+	double a, b;              // Space Boundaries
 
 public:
 	HeatEquation(double coefficient, BinaryFunction heat_source, UnaryFunction initial,
@@ -63,15 +63,6 @@ bool Writer::write_grid(char* path) {
 			fout << ";";
 		}
 	}
-	/*for (int i = 0; i < _to_write.space_size(); ++i) {
-		fout << i;
-		if (i == _to_write.space_size() - 1) {
-			fout << std::endl;
-		}
-		else {
-			fout << ";";
-		}
-	}*/
 	for (int j = 0; j < _to_write.time_size(); ++j) {
 		for (int i = 0; i < _to_write.space_size(); ++i) {
 
